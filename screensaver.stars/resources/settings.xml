@@ -1,0 +1,8 @@
+<settings>
+  <setting id="numstars"   label="30000" type="slider" option="int" range="100,100,10000" default="1000"/>
+  <setting id="gamma"      label="30001" type="slider" option="float" range="0.01,0.01,2.0" default="1.0"/>
+  <setting id="brightness" label="30002" type="slider" option="float" range="0.01,0.01,1.0" default="0.2"/>
+  <setting id="speed"      label="30003" type="slider" option="float" range="1,0.1,50" default="20.0"/>
+  <setting id="zoom"       label="30004" type="slider" option="float" range="0.1,0.1,10.0" default="1.5"/>
+  <setting id="expanse"    label="30005" type="slider" option="float" range="0.1,0.1,10.0" default="1.5"/>
+</settings>
