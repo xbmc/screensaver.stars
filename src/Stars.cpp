@@ -47,11 +47,12 @@ struct ST_SETTINGS
 	float fSpeed;
 	float fZoom;
 	float fExpanse;
+	void* pContext;
 };
 
 struct ST_SETTINGS g_Settings = 
 {
-	"", 0, 0, 1000, 1.f, 0.2f, 10.0f, 1.5f, 1.5f
+	"", 0, 0, 1000, 1.f, 0.2f, 10.0f, 1.5f, 1.5f, NULL
 };
 
 ADDON_STATUS ADDON_Create(void* hdl, void* props)
@@ -63,6 +64,7 @@ ADDON_STATUS ADDON_Create(void* hdl, void* props)
 
   g_Settings.iWidth = scrprops->width;
   g_Settings.iHeight = scrprops->height;
+  g_Settings.pContext = scrprops->device;
 
   return ADDON_STATUS_NEED_SETTINGS;
 }
@@ -76,7 +78,8 @@ extern "C" void Start()
       g_Settings.fBrightness,
       g_Settings.fSpeed,
       g_Settings.fZoom,
-      g_Settings.fExpanse);
+      g_Settings.fExpanse,
+      g_Settings.pContext);
   if (g_pStarField)
     g_pStarField->Create(g_Settings.iWidth, g_Settings.iHeight);
 }

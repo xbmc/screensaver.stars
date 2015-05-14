@@ -10,10 +10,11 @@
   <extension
     point="xbmc.ui.screensaver"
     library_linux="screensaver.stars.so"
+    library_windx="screensaver.stars.dll"
     library_osx="screensaver.stars.dylib"/>
   <extension point="xbmc.addon.metadata">
     <summary>Stars screensaver</summary>
     <description>Stars screensaver</description>
-    <platform>linux osx</platform>
+    <platform>linux osx windx</platform>
   </extension>
 </addon>
