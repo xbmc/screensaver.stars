@@ -1,6 +1,9 @@
 #pragma once
 
 #include "types.h"
+#ifdef WIN32
+#include <d3d11.h>
+#endif
 
 class CStarField
 {
@@ -51,14 +54,14 @@ protected:
 
 	struct ST_CUSTOMVERTEX
 	{
-		float x, y, z, rhw;		// The transformed position for the vertex.
+		float x, y, z;		// The transformed position for the vertex.
                 CRGBA color;
 	};
 
 public:
 	CStarField(void);
 	CStarField(unsigned int nNumStars, float fGamma, float fBrightness, 
-			   float fSpeed, float fZoom, float fExpanse);
+			   float fSpeed, float fZoom, float fExpanse, void* pContext);
 	virtual ~CStarField(void);
 
 	int Create(int iWidth, int iHeight);
@@ -78,6 +81,9 @@ protected:
 	{
 		return min + (float)rand() / (float)RAND_MAX * range;
 	}	
+#ifdef WIN32
+	void InitDXStuff(void);
+#endif
 
 protected:
 	ST_SCREEN m_Screen;
@@ -100,6 +106,11 @@ protected:
 
 	ST_CUSTOMVERTEX* m_pVertices;
 	ST_CUSTOMVERTEX* m_pCurVertice;
+#ifdef WIN32
+	ID3D11DeviceContext* m_pContext;
+	ID3D11Buffer*        m_pVBuffer;
+	ID3D11PixelShader*   m_pPShader;
+#endif
 };
 
 
