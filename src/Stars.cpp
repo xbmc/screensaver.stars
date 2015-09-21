@@ -23,7 +23,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <kodi/xbmc_scr_dll.h>
+#include <xbmc_scr_dll.h>
 #include <GL/gl.h>
 
 #include "StarField.h"
