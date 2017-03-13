@@ -416,7 +416,7 @@ void CStarField::DoDraw(void)
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
   m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-  size_t strides = sizeof(ST_CUSTOMVERTEX), offsets = 0;
+  UINT strides = sizeof(ST_CUSTOMVERTEX), offsets = 0;
   m_pContext->IASetVertexBuffers(0, 1, &m_pVBuffer, &strides, &offsets);
   m_pContext->PSSetShader(m_pPShader, NULL, 0);
   m_pContext->Draw(m_nDrawnStars * POINTSPERSTAR, 0);
