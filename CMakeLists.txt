@@ -11,7 +11,10 @@ find_package(Kodi REQUIRED)
 include_directories(${KODI_INCLUDE_DIR})
 
 set(STARS_SOURCES src/StarField.cpp
-                   src/Stars.cpp)
+                  src/Stars.cpp)
+
+set(STARS_HEADERS src/StarField.h
+                  src/types.h)
 
 set(DEPLIBS)
 
