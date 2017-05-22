@@ -62,7 +62,7 @@ ADDON_STATUS ADDON_Create(void* hdl, void* props)
   if (!props)
     return ADDON_STATUS_UNKNOWN;
 
-  SCR_PROPS* scrprops = (SCR_PROPS*)props;
+  AddonProps_Screensaver* scrprops = (AddonProps_Screensaver*)props;
 
   g_Settings.iWidth = scrprops->width;
   g_Settings.iHeight = scrprops->height;
@@ -94,7 +94,7 @@ extern "C" void Render()
   }
 }
 
-extern "C" void ADDON_Stop()
+extern "C" void Stop()
 {
   delete g_pStarField;
   g_pStarField = NULL;
