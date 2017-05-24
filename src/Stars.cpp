@@ -23,7 +23,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#include <xbmc_scr_dll.h>
+#include <kodi/addon-instance/Screensaver.h>
 #ifndef WIN32
 #include <GL/gl.h>
 #endif
@@ -35,94 +35,72 @@
 #include <string.h>
 #include <time.h>
 
-CStarField* g_pStarField = NULL;
-
 struct ST_SETTINGS
 {
-	char szScrName[1024];
-	int iWidth;
-	int iHeight;
-	
-	int   iNumStars;
-	float fGamma;
-	float fBrightness;
-	float fSpeed;
-	float fZoom;
-	float fExpanse;
-	void* pContext;
+  int   iNumStars;
+  float fGamma;
+  float fBrightness;
+  float fSpeed;
+  float fZoom;
+  float fExpanse;
 };
 
-struct ST_SETTINGS g_Settings = 
+class CScreensaverStars
+  : public kodi::addon::CAddonBase,
+    public kodi::addon::CInstanceScreensaver
 {
-	"", 0, 0, 1000, 1.f, 0.2f, 10.0f, 1.5f, 1.5f, NULL
+public:
+  CScreensaverStars();
+
+  virtual bool Start() override;
+  virtual void Stop() override;
+  virtual void Render() override;
+
+private:
+  ST_SETTINGS m_Settings;
+  CStarField* m_pStarField;
 };
 
-ADDON_STATUS ADDON_Create(void* hdl, void* props)
+CScreensaverStars::CScreensaverStars()
+  : m_pStarField(nullptr)
 {
-  if (!props)
-    return ADDON_STATUS_UNKNOWN;
-
-  AddonProps_Screensaver* scrprops = (AddonProps_Screensaver*)props;
-
-  g_Settings.iWidth = scrprops->width;
-  g_Settings.iHeight = scrprops->height;
-  g_Settings.pContext = scrprops->device;
-
-  return ADDON_STATUS_NEED_SETTINGS;
+  m_Settings.iNumStars = kodi::GetSettingInt("numstars");
+  m_Settings.fGamma = kodi::GetSettingFloat("gamma");
+  m_Settings.fBrightness = kodi::GetSettingFloat("brightness");
+  m_Settings.fSpeed = kodi::GetSettingFloat("speed");
+  m_Settings.fZoom = kodi::GetSettingFloat("zoom");
+  m_Settings.fExpanse = kodi::GetSettingFloat("expanse");
 }
 
-extern "C" void Start()
+bool CScreensaverStars::Start()
 {
-  srand(time(NULL));
+  srand(time(nullptr));
 
-  g_pStarField = new CStarField(g_Settings.iNumStars,
-      g_Settings.fGamma,
-      g_Settings.fBrightness,
-      g_Settings.fSpeed,
-      g_Settings.fZoom,
-      g_Settings.fExpanse,
-      g_Settings.pContext);
-  if (g_pStarField)
-    g_pStarField->Create(g_Settings.iWidth, g_Settings.iHeight);
+  m_pStarField = new CStarField(m_Settings.iNumStars,
+      m_Settings.fGamma,
+      m_Settings.fBrightness,
+      m_Settings.fSpeed,
+      m_Settings.fZoom,
+      m_Settings.fExpanse,
+      Device());
+  if (!m_pStarField)
+    return false;
+  m_pStarField->Create(Width(), Height());
+  return true;
 }
 
-extern "C" void Render()
-{	
-  if (g_pStarField)
+void CScreensaverStars::Render()
+{
+  if (m_pStarField)
   {
-    g_pStarField->RenderFrame();
+    m_pStarField->RenderFrame();
   }
 }
 
-extern "C" void Stop()
+void CScreensaverStars::Stop()
 {
-  delete g_pStarField;
-  g_pStarField = NULL;
+  delete m_pStarField;
+  m_pStarField = nullptr;
 }
 
-void ADDON_Destroy()
-{
-}
-
-ADDON_STATUS ADDON_GetStatus()
-{
-  return ADDON_STATUS_OK;
-}
-
-ADDON_STATUS ADDON_SetSetting(const char *strSetting, const void *value)
-{
-  if (strcmp(strSetting, "numstars") == 0)
-    g_Settings.iNumStars = *(int*)value;
-  if (strcmp(strSetting, "gamma") == 0)
-    g_Settings.fGamma = *(float*)value;
-  if (strcmp(strSetting, "brightness") == 0)
-    g_Settings.fBrightness = *(float*)value;
-  if (strcmp(strSetting, "speed") == 0)
-    g_Settings.fSpeed = *(float*)value;
-  if (strcmp(strSetting, "zoom") == 0)
-    g_Settings.fZoom = *(float*)value;
-  if (strcmp(strSetting, "expanse") == 0)
-    g_Settings.fExpanse = *(float*)value;
-
-  return ADDON_STATUS_OK;
-}
+ADDONCREATOR(CScreensaverStars);
