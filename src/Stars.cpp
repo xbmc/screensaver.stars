@@ -45,7 +45,7 @@ struct ST_SETTINGS
   float fExpanse;
 };
 
-class CScreensaverStars
+class ATTRIBUTE_HIDDEN CScreensaverStars
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 {
