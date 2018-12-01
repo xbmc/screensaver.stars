@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="screensaver.stars"
-  version="2.0.0"
+  version="2.1.0"
   name="Stars"
-  provider-name="spiff">
+  provider-name="Team Kodi">
   <requires>@ADDON_DEPENDS@</requires>
   <extension
     point="xbmc.ui.screensaver"
