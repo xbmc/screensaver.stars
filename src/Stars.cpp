@@ -25,11 +25,7 @@
 
 #include <kodi/addon-instance/Screensaver.h>
 #ifndef WIN32
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "shaders/GUIShader.h"
 #endif
 
 #include "StarField.h"
@@ -49,7 +45,7 @@ struct ST_SETTINGS
   float fExpanse;
 };
 
-class CScreensaverStars
+class ATTRIBUTE_HIDDEN CScreensaverStars
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 {

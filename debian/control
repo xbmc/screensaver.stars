@@ -1,0 +1,22 @@
+Source: kodi-screensaver-stars
+Priority: extra
+Maintainer: Nobody <nobody@kodi.tv>
+Build-Depends: debhelper (>= 9.0.0), cmake, kodi-addon-dev,
+               libgl1-mesa-dev
+Standards-Version: 3.9.5
+Section: libs
+Homepage: http://kodi.tv
+
+Package: kodi-screensaver-stars
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Stars screensaver for Kodi
+ Stars screensaver for Kodi
+
+Package: kodi-screensaver-stars-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: debug symbols for Stars screensaver for Kodi
+ debug symbols for Stars screensaver for Kodi

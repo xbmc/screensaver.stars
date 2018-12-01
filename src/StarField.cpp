@@ -7,34 +7,18 @@
 #include <memory.h>
 #include <algorithm>
 
-#ifndef WIN32
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-#else
-#include <d3d11.h>
-#endif
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 const int POINTSPERSTAR = 2;
 
 CStarField::CStarField(void)
-		  : m_pStars(0)
-		  , m_nStarCnt(1000)
-		  , m_fGammaValue(1.0f)
-		  , m_fBrightness(0.3f)
-		  , m_fMaxVelocity(10.f)
-		  , m_fVelocity(0.f)
-		  , m_fZoom(3.f/2.f)
-		  , m_fFieldExpanse(1.5f)
-		  , m_pVertices(0)
-		  , m_pCurVertice(0)
-#ifdef WIN32
-      , m_pContext(NULL)
-      , m_pVBuffer(NULL)
-      , m_pPShader(NULL)
-#endif
+  : m_nStarCnt(1000)
+  , m_fGammaValue(1.0f)
+  , m_fBrightness(0.3f)
+  , m_fMaxVelocity(10.f)
+  , m_fVelocity(0.f)
+  , m_fZoom(3.f/2.f)
+  , m_fFieldExpanse(1.5f)
 {
   memset(&m_Screen, 0, sizeof(m_Screen));
   memset(&m_Field, 0, sizeof(m_Field));
@@ -47,22 +31,17 @@ CStarField::CStarField(void)
   }
 }
 
-CStarField::CStarField(unsigned int nNumStars, float fGamma, float fBrightness, 
-					   float fSpeed, float fZoom, float fExpanse, void* pContext)
-		  : m_pStars(0)
-		  , m_nStarCnt(nNumStars)
-		  , m_fGammaValue(fGamma)
-		  , m_fBrightness(fBrightness)
-		  , m_fMaxVelocity(fSpeed)
-		  , m_fVelocity(0.f)
-		  , m_fZoom(fZoom)
-		  , m_fFieldExpanse(fExpanse)
-		  , m_pVertices(0)
-		  , m_pCurVertice(0)
+CStarField::CStarField(unsigned int nNumStars, float fGamma, float fBrightness,
+                       float fSpeed, float fZoom, float fExpanse, void* pContext)
+  : m_nStarCnt(nNumStars)
+  , m_fGammaValue(fGamma)
+  , m_fBrightness(fBrightness)
+  , m_fMaxVelocity(fSpeed)
+  , m_fVelocity(0.f)
+  , m_fZoom(fZoom)
+  , m_fFieldExpanse(fExpanse)
 #ifdef WIN32
-      , m_pContext(reinterpret_cast<ID3D11DeviceContext*>(pContext))
-      , m_pVBuffer(NULL)
-      , m_pPShader(NULL)
+  , m_pContext(reinterpret_cast<ID3D11DeviceContext*>(pContext))
 #endif
 {
   memset(&m_Screen, 0, sizeof(m_Screen));
@@ -74,6 +53,7 @@ CStarField::CStarField(unsigned int nNumStars, float fGamma, float fBrightness,
   {
     m_fBrightTable[i] = 0.f;
   }
+
 #ifdef WIN32
   InitDXStuff();
 #endif
@@ -87,69 +67,69 @@ CStarField::~CStarField(void)
 #ifdef WIN32
 const BYTE PixelShader[] =
 {
-     68,  88,  66,  67,  18, 124, 
-    182,  35,  30, 142, 196, 211, 
-     95, 130,  91, 204,  99,  13, 
-    249,   8,   1,   0,   0,   0, 
-    124,   1,   0,   0,   4,   0, 
-      0,   0,  48,   0,   0,   0, 
-    124,   0,   0,   0, 188,   0, 
-      0,   0,  72,   1,   0,   0, 
-     65, 111, 110,  57,  68,   0, 
-      0,   0,  68,   0,   0,   0, 
-      0,   2, 255, 255,  32,   0, 
-      0,   0,  36,   0,   0,   0, 
-      0,   0,  36,   0,   0,   0, 
-     36,   0,   0,   0,  36,   0, 
-      0,   0,  36,   0,   0,   0, 
-     36,   0,   0,   2, 255, 255, 
-     31,   0,   0,   2,   0,   0, 
-      0, 128,   0,   0,  15, 176, 
-      1,   0,   0,   2,   0,   8, 
-     15, 128,   0,   0, 228, 176, 
-    255, 255,   0,   0,  83,  72, 
-     68,  82,  56,   0,   0,   0, 
-     64,   0,   0,   0,  14,   0, 
-      0,   0,  98,  16,   0,   3, 
-    242,  16,  16,   0,   1,   0, 
-      0,   0, 101,   0,   0,   3, 
-    242,  32,  16,   0,   0,   0, 
-      0,   0,  54,   0,   0,   5, 
-    242,  32,  16,   0,   0,   0, 
-      0,   0,  70,  30,  16,   0, 
-      1,   0,   0,   0,  62,   0, 
-      0,   1,  73,  83,  71,  78, 
-    132,   0,   0,   0,   4,   0, 
-      0,   0,   8,   0,   0,   0, 
-    104,   0,   0,   0,   0,   0, 
-      0,   0,   1,   0,   0,   0, 
-      3,   0,   0,   0,   0,   0, 
-      0,   0,  15,   0,   0,   0, 
-    116,   0,   0,   0,   0,   0, 
-      0,   0,   0,   0,   0,   0, 
-      3,   0,   0,   0,   1,   0, 
-      0,   0,  15,  15,   0,   0, 
-    122,   0,   0,   0,   0,   0, 
-      0,   0,   0,   0,   0,   0, 
-      3,   0,   0,   0,   2,   0, 
-      0,   0,   3,   0,   0,   0, 
-    122,   0,   0,   0,   1,   0, 
-      0,   0,   0,   0,   0,   0, 
-      3,   0,   0,   0,   2,   0, 
-      0,   0,  12,   0,   0,   0, 
-     83,  86,  95,  80,  79,  83, 
-     73,  84,  73,  79,  78,   0, 
-     67,  79,  76,  79,  82,   0, 
-     84,  69,  88,  67,  79,  79, 
-     82,  68,   0, 171,  79,  83, 
-     71,  78,  44,   0,   0,   0, 
-      1,   0,   0,   0,   8,   0, 
-      0,   0,  32,   0,   0,   0, 
-      0,   0,   0,   0,   0,   0, 
-      0,   0,   3,   0,   0,   0, 
-      0,   0,   0,   0,  15,   0, 
-      0,   0,  83,  86,  95,  84, 
-     65,  82,  71,  69,  84,   0, 
+     68,  88,  66,  67,  18, 124,
+    182,  35,  30, 142, 196, 211,
+     95, 130,  91, 204,  99,  13,
+    249,   8,   1,   0,   0,   0,
+    124,   1,   0,   0,   4,   0,
+      0,   0,  48,   0,   0,   0,
+    124,   0,   0,   0, 188,   0,
+      0,   0,  72,   1,   0,   0,
+     65, 111, 110,  57,  68,   0,
+      0,   0,  68,   0,   0,   0,
+      0,   2, 255, 255,  32,   0,
+      0,   0,  36,   0,   0,   0,
+      0,   0,  36,   0,   0,   0,
+     36,   0,   0,   0,  36,   0,
+      0,   0,  36,   0,   0,   0,
+     36,   0,   0,   2, 255, 255,
+     31,   0,   0,   2,   0,   0,
+      0, 128,   0,   0,  15, 176,
+      1,   0,   0,   2,   0,   8,
+     15, 128,   0,   0, 228, 176,
+    255, 255,   0,   0,  83,  72,
+     68,  82,  56,   0,   0,   0,
+     64,   0,   0,   0,  14,   0,
+      0,   0,  98,  16,   0,   3,
+    242,  16,  16,   0,   1,   0,
+      0,   0, 101,   0,   0,   3,
+    242,  32,  16,   0,   0,   0,
+      0,   0,  54,   0,   0,   5,
+    242,  32,  16,   0,   0,   0,
+      0,   0,  70,  30,  16,   0,
+      1,   0,   0,   0,  62,   0,
+      0,   1,  73,  83,  71,  78,
+    132,   0,   0,   0,   4,   0,
+      0,   0,   8,   0,   0,   0,
+    104,   0,   0,   0,   0,   0,
+      0,   0,   1,   0,   0,   0,
+      3,   0,   0,   0,   0,   0,
+      0,   0,  15,   0,   0,   0,
+    116,   0,   0,   0,   0,   0,
+      0,   0,   0,   0,   0,   0,
+      3,   0,   0,   0,   1,   0,
+      0,   0,  15,  15,   0,   0,
+    122,   0,   0,   0,   0,   0,
+      0,   0,   0,   0,   0,   0,
+      3,   0,   0,   0,   2,   0,
+      0,   0,   3,   0,   0,   0,
+    122,   0,   0,   0,   1,   0,
+      0,   0,   0,   0,   0,   0,
+      3,   0,   0,   0,   2,   0,
+      0,   0,  12,   0,   0,   0,
+     83,  86,  95,  80,  79,  83,
+     73,  84,  73,  79,  78,   0,
+     67,  79,  76,  79,  82,   0,
+     84,  69,  88,  67,  79,  79,
+     82,  68,   0, 171,  79,  83,
+     71,  78,  44,   0,   0,   0,
+      1,   0,   0,   0,   8,   0,
+      0,   0,  32,   0,   0,   0,
+      0,   0,   0,   0,   0,   0,
+      0,   0,   3,   0,   0,   0,
+      0,   0,   0,   0,  15,   0,
+      0,   0,  83,  86,  95,  84,
+     65,  82,  71,  69,  84,   0,
     171, 171
 };
 
@@ -175,15 +155,15 @@ int CStarField::Create(int iWidth, int iHeight)
   m_Screen.iMidX = iWidth / 2;
   m_Screen.iMidY = iHeight / 2;
 
-  m_Field.fMinX	 = -320.f;
-  m_Field.fMaxX	 =  320.f;
-  m_Field.fWidth	 = m_Field.fMaxX - m_Field.fMinX;
-  m_Field.fMinY	 = -320.f;
-  m_Field.fMaxY	 =  320.f;
-  m_Field.fHeight	 = m_Field.fMaxY - m_Field.fMinY;
-  m_Field.fMinZ	 = -128.f;
-  m_Field.fMaxZ	 = 640.f;
-  m_Field.fLength	 = m_Field.fMaxZ - m_Field.fMinZ;
+  m_Field.fMinX   = -320.f;
+  m_Field.fMaxX   =  320.f;
+  m_Field.fWidth  = m_Field.fMaxX - m_Field.fMinX;
+  m_Field.fMinY   = -320.f;
+  m_Field.fMaxY   =  320.f;
+  m_Field.fHeight = m_Field.fMaxY - m_Field.fMinY;
+  m_Field.fMinZ   = -128.f;
+  m_Field.fMaxZ   = 640.f;
+  m_Field.fLength = m_Field.fMaxZ - m_Field.fMinZ;
 
   if (m_pStars)
   {
@@ -192,7 +172,7 @@ int CStarField::Create(int iWidth, int iHeight)
 
   m_pStars = new ST_STAR[m_nStarCnt];
 
-  if (m_pStars == NULL)
+  if (m_pStars == nullptr)
   {
     return -1;
   }
@@ -204,7 +184,7 @@ int CStarField::Create(int iWidth, int iHeight)
     double br = pow(256 / (double)std::max(n, (unsigned)1), 2) - pow(256 / 255., 2);
 
     if (br < 0)
-    {	
+    {
       br = 0.;
     }
 
@@ -212,7 +192,6 @@ int CStarField::Create(int iWidth, int iHeight)
 
     m_fBrightTable[n] = (float)(br * 255);
   }
-
 
   for (n = 0; n < m_nStarCnt; n++)
   {
@@ -222,9 +201,10 @@ int CStarField::Create(int iWidth, int iHeight)
 
   for (n = 1; n < 256; n++)
   {
-    char c = GammaCorrect(n, m_fGammaValue) >> 2;
-    SetPalette(n, n, n, n);
+    unsigned char c = GammaCorrect(n, m_fGammaValue);
+    SetPalette(n, c, c, c);
   }
+
 #ifndef WIN32
   if (m_pVertices)
   {
@@ -233,30 +213,51 @@ int CStarField::Create(int iWidth, int iHeight)
 
   m_pVertices = new ST_CUSTOMVERTEX[m_nStarCnt * POINTSPERSTAR];
 
-  if (m_pVertices == NULL)
+  if (m_pVertices == nullptr)
   {
     return -1;
   }
 
   m_pCurVertice = m_pVertices;
+
+  m_shader = new CGUIShader("vert.glsl", "frag.glsl");
+  if (!m_shader->CompileAndLink())
+  {
+    delete m_shader;
+    m_shader = nullptr;
+    return false;
+  }
+
+  glGenBuffers(1, &m_vertexVBO);
+  glGenBuffers(1, &m_indexVBO);
 #endif
+
   return 0;
 }
 
 char CStarField::GammaCorrect(unsigned char c, float g)
 {
   return (char)(pow(((float)c) / 255.f, 1.f / g) * 255.f);
-}	
+}
 
 void CStarField::Destroy(void)
 {
   delete[] m_pStars;
-  m_pStars = NULL;
+  m_pStars = nullptr;
 
-  m_pCurVertice = NULL;
+  m_pCurVertice = nullptr;
 #ifndef WIN32
   delete[] m_pVertices;
-  m_pVertices = NULL;
+  m_pVertices = nullptr;
+
+  glDeleteBuffers(1, &m_vertexVBO);
+  m_vertexVBO = 0;
+  glDeleteBuffers(1, &m_indexVBO);
+  m_indexVBO = 0;
+
+  delete(m_shader);
+  m_shader = nullptr;
+
 #else
   SAFE_RELEASE(m_pVBuffer);
   SAFE_RELEASE(m_pPShader);
@@ -265,7 +266,7 @@ void CStarField::Destroy(void)
 
 int CStarField::RenderFrame(void)
 {
-  if (m_pStars == NULL)
+  if (m_pStars == nullptr)
   {
     return -1;
   }
@@ -273,15 +274,15 @@ int CStarField::RenderFrame(void)
   m_Screen.fZoom = (float)m_Screen.iMidX * m_fZoom;
   m_fVelocity += (m_fMaxVelocity - m_fVelocity) * .01f;
 
-  m_Cam.aacc	= (m_Cam.aacc + RangeRand(-.00001f, .00002f)) * .99f;
-  m_Cam.bacc	= (m_Cam.bacc + RangeRand(-.00001f, .00002f)) * .99f;
-  m_Cam.cacc	= (m_Cam.cacc + RangeRand(-.00001f, .00002f)) * .992f;
-  m_Cam.avel	= (m_Cam.avel + m_Cam.aacc) * .99f;
-  m_Cam.bvel	= (m_Cam.bvel + m_Cam.bacc) * .99f;
-  m_Cam.cvel	= (m_Cam.cvel + m_Cam.cacc) * .992f;
-  m_Cam.a		= (m_Cam.a + m_Cam.avel) * .99f;
-  m_Cam.b		= (m_Cam.b + m_Cam.bvel) * .99f;
-  m_Cam.c		= (m_Cam.c + m_Cam.cvel) * .992f;
+  m_Cam.aacc = (m_Cam.aacc + RangeRand(-.00001f, .00002f)) * .99f;
+  m_Cam.bacc = (m_Cam.bacc + RangeRand(-.00001f, .00002f)) * .99f;
+  m_Cam.cacc = (m_Cam.cacc + RangeRand(-.00001f, .00002f)) * .992f;
+  m_Cam.avel = (m_Cam.avel + m_Cam.aacc) * .99f;
+  m_Cam.bvel = (m_Cam.bvel + m_Cam.bacc) * .99f;
+  m_Cam.cvel = (m_Cam.cvel + m_Cam.cacc) * .992f;
+  m_Cam.a    = (m_Cam.a + m_Cam.avel) * .99f;
+  m_Cam.b    = (m_Cam.b + m_Cam.bvel) * .99f;
+  m_Cam.c    = (m_Cam.c + m_Cam.cvel) * .992f;
 
   float sina = (float)sin(-m_Cam.a);
   float cosa = (float)cos(-m_Cam.a);
@@ -336,19 +337,20 @@ int CStarField::RenderFrame(void)
 
     float c = m_fBrightTable[std::min(dist >> 1, 255)];
 
+    // Unused because stars are almost invisible.
+    /*
     if (len > 2)
-    {
-      //c /= (len / 2);
-    }
+      c /= (len / 2);
+    */
 
     // plot star
     if (pStar->rz > 1.0f)
     {
       if (pStar->plot)
       {
-        if (pStar->sx > 2 && pStar->sx < m_Screen.iWidth && 
+        if (pStar->sx > 2 && pStar->sx < m_Screen.iWidth &&
             pStar->sy > 2 && pStar->sy < m_Screen.iHeight - 2 &&
-            nsx > 2 && nsx < m_Screen.iWidth && 
+            nsx > 2 && nsx < m_Screen.iWidth &&
             nsy > 2 && nsy < m_Screen.iHeight - 2)
         {
           DrawStar(pStar->sx, pStar->sy, nsx, nsy, (int)c);
@@ -379,13 +381,26 @@ void CStarField::DrawStar(float x1, float y1, float x2, float y2, int iBrightnes
 {
   if (
 #ifndef WIN32
-    m_pVertices == NULL || 
+    m_pVertices == nullptr ||
 #endif
-    m_pCurVertice == NULL)
+    m_pCurVertice == nullptr)
   {
     return;
   }
 
+#ifndef WIN32
+  m_pCurVertice->x = (x1 - m_Screen.iWidth / 2.0f) / m_Screen.iWidth * 2.0f;
+  m_pCurVertice->y = (y1 - m_Screen.iHeight / 2.0f) / m_Screen.iHeight * 2.0f;
+  m_pCurVertice->z = 0.0f;
+  m_pCurVertice->color = m_dwPalette[iBrightness];
+  m_pCurVertice++;
+
+  m_pCurVertice->x = ((x2 > x1 ? x2 + 1 : x2 - 1) - m_Screen.iWidth / 2.0f) / m_Screen.iWidth * 2.0f;
+  m_pCurVertice->y = ((y2 > y1 ? y2 + 1 : y2 - 1) - m_Screen.iHeight / 2.0f) / m_Screen.iHeight * 2.0f;
+  m_pCurVertice->z = 0.0f;
+  m_pCurVertice->color = m_dwPalette[iBrightness];
+  m_pCurVertice++;
+#else
   m_pCurVertice->x = x1;
   m_pCurVertice->y = y1;
   m_pCurVertice->z = 0.0f;
@@ -397,6 +412,7 @@ void CStarField::DrawStar(float x1, float y1, float x2, float y2, int iBrightnes
   m_pCurVertice->z = 0.0f;
   m_pCurVertice->color = m_dwPalette[iBrightness];
   m_pCurVertice++;
+#endif
 
   m_nDrawnStars++;
 }
@@ -408,21 +424,44 @@ void CStarField::DoDraw(void)
     return;
   }
 #ifndef WIN32
-  glBegin(GL_LINES);
-  size_t nVSize = m_nStarCnt * POINTSPERSTAR;
-  for (size_t i=0;i<nVSize;++i)
-  {
-    glColor3f(m_pVertices[i].color.r, m_pVertices[i].color.g,
-              m_pVertices[i].color.b);
-    glVertex2f(m_pVertices[i].x, m_pVertices[i].y);
-  }
-  glEnd();
+  if (!m_shader)
+    return;
+
+  size_t nVSize = m_nDrawnStars * POINTSPERSTAR;
+  GLint posLoc = m_shader->GetPosLoc();
+  GLint colLoc = m_shader->GetColLoc();
+
+  m_shader->PushMatrix();
+  m_shader->Enable();
+
+  glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(ST_CUSTOMVERTEX)*nVSize, m_pVertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, x)));
+  glEnableVertexAttribArray(posLoc);
+
+  glVertexAttribPointer(colLoc, 4, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, color)));
+  glEnableVertexAttribArray(colLoc);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  glEnable(GL_BLEND);
+  glDrawArrays(GL_LINES, 0, nVSize);
+
+  glDisableVertexAttribArray(posLoc);
+  glDisableVertexAttribArray(colLoc);
+
+  m_shader->Disable();
+  m_shader->PopMatrix();
+
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
   m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
   UINT strides = sizeof(ST_CUSTOMVERTEX), offsets = 0;
   m_pContext->IASetVertexBuffers(0, 1, &m_pVBuffer, &strides, &offsets);
-  m_pContext->PSSetShader(m_pPShader, NULL, 0);
+  m_pContext->PSSetShader(m_pPShader, nullptr, 0);
   m_pContext->Draw(m_nDrawnStars * POINTSPERSTAR, 0);
 #endif // !WIN32
 }
@@ -434,6 +473,3 @@ void CStarField::SetPalette(unsigned int nIndex, int iRed, int iGreen, int iBlue
     m_dwPalette[nIndex] = CRGBA(iRed / 255.0f, iGreen / 255.0f, iBlue / 255.0f, 1.0f);
   }
 }
-
-
-
