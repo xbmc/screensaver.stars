@@ -26,5 +26,27 @@ screensaver.*/addon.xml
 # clion
 .idea/
 
-# KDev
-*.kdev4
+*.o
+*.a
+*.P
+*.lo
+*.la
+*.pvr
+*.zip
+*.patch
+*.orig
+*.diff
+
+*.idb
+*.tlog
+*.lastbuildstate
+
+# Windows specific generated files
+*.exp
+*.lib
+*.pdb
+*.ilk
+*.suo
+*.sdf
+*.opensdf
+*.vcxproj.user
