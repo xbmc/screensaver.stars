@@ -1,11 +1,15 @@
 #pragma once
 
+#include <kodi/AddonBase.h> // ATTRIBUTE_HIDDEN
+
 #include "types.h"
-#ifdef WIN32
+#ifndef WIN32
+#include "shaders/GUIShader.h"
+#else
 #include <d3d11.h>
 #endif
 
-class CStarField
+class ATTRIBUTE_HIDDEN CStarField
 {
 protected:
 	struct ST_STAR
@@ -60,7 +64,7 @@ protected:
 
 public:
 	CStarField(void);
-	CStarField(unsigned int nNumStars, float fGamma, float fBrightness, 
+	CStarField(unsigned int nNumStars, float fGamma, float fBrightness,
 			   float fSpeed, float fZoom, float fExpanse, void* pContext);
 	virtual ~CStarField(void);
 
@@ -74,13 +78,13 @@ protected:
 	void SetPalette(unsigned int nIndex, int iRed, int iGreen, int iBlue);
 
 	void ResetStar(ST_STAR* pStar);
-	
+
 	char GammaCorrect(unsigned char c, float g);
-	
+
 	float RangeRand(float min, float range)
 	{
 		return min + (float)rand() / (float)RAND_MAX * range;
-	}	
+	}
 #ifdef WIN32
 	void InitDXStuff(void);
 #endif
@@ -88,10 +92,10 @@ protected:
 protected:
 	ST_SCREEN m_Screen;
 	ST_FIELD m_Field;
-	ST_ROTATION m_Cam;	
-	ST_STAR* m_pStars;	
-	unsigned int m_nStarCnt;	
-	unsigned int m_nDrawnStars;	
+	ST_ROTATION m_Cam;
+	ST_STAR* m_pStars;
+	unsigned int m_nStarCnt;
+	unsigned int m_nDrawnStars;
 
 	float m_fGammaValue;
 	float m_fBrightness;
@@ -106,7 +110,11 @@ protected:
 
 	ST_CUSTOMVERTEX* m_pVertices;
 	ST_CUSTOMVERTEX* m_pCurVertice;
-#ifdef WIN32
+#ifndef WIN32
+  CGUIShader* m_shader = nullptr;
+  unsigned int m_vertexVBO;
+  unsigned int m_indexVBO;
+#else
 	ID3D11DeviceContext* m_pContext;
 	ID3D11Buffer*        m_pVBuffer;
 	ID3D11PixelShader*   m_pPShader;

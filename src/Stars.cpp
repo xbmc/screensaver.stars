@@ -25,11 +25,7 @@
 
 #include <kodi/addon-instance/Screensaver.h>
 #ifndef WIN32
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "shaders/GUIShader.h"
 #endif
 
 #include "StarField.h"
