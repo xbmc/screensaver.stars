@@ -230,6 +230,9 @@ int CStarField::Create(int iWidth, int iHeight)
 
   glGenBuffers(1, &m_vertexVBO);
   glGenBuffers(1, &m_indexVBO);
+
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
 #endif
 
   return 0;
@@ -426,6 +429,8 @@ void CStarField::DoDraw(void)
 #ifndef WIN32
   if (!m_shader)
     return;
+
+  glClear(GL_COLOR_BUFFER_BIT);
 
   size_t nVSize = m_nDrawnStars * POINTSPERSTAR;
   GLint posLoc = m_shader->GetPosLoc();
