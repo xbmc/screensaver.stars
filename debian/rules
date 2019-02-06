@@ -10,10 +10,13 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ 
+	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=1 -DUSE_LTO=1
+	dh_auto_configure -- \
+	  -DCMAKE_BUILD_TYPE=Release \
+	  -DBUILD_SHARED_LIBS=1 \
+	  -DUSE_LTO=1
 
 override_dh_strip:
 	dh_strip -pkodi-screensaver-stars --dbg-package=kodi-screensaver-stars-dbg
