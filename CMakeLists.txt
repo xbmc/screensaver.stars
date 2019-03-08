@@ -1,6 +1,5 @@
+cmake_minimum_required(VERSION 3.5)
 project(screensaver.stars)
-
-cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
@@ -20,20 +19,10 @@ if (NOT WIN32)
     set(includes ${OPENGLES_INCLUDE_DIR})
     add_definitions(${OPENGLES_DEFINITIONS})
   endif()
-
-  if(NOT OPENGL_FOUND AND NOT OPENGLES_FOUND)
-    message(FATAL_ERROR "No rendering API found. Bailing")
-  endif()
-
-  set(STARS_SOURCES src/shaders/GUIShader.cpp
-                    src/shaders/Matrix.cpp
-                    src/shaders/Shader.cpp)
-  set(STARS_HEADERS src/shaders/GUIShader.h
-                    src/shaders/Matrix.h
-                    src/shaders/Shader.h)
 endif()
 
-include_directories(${KODI_INCLUDE_DIR}/..) # Hack way with "/..", need bigger Kodi cmake rework to match right include ways
+include_directories(${includes} ${KODI_INCLUDE_DIR}/..  # Hack way with "/..", need bigger Kodi cmake rework to match right include ways
+                                ${PROJECT_SOURCE_DIR}/lib)
 
 list(APPEND STARS_SOURCES src/StarField.cpp
                           src/Stars.cpp)

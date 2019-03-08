@@ -7,8 +7,6 @@
 #include <memory.h>
 #include <algorithm>
 
-#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-
 const int POINTSPERSTAR = 2;
 
 CStarField::CStarField(void)
@@ -220,16 +218,12 @@ int CStarField::Create(int iWidth, int iHeight)
 
   m_pCurVertice = m_pVertices;
 
-  m_shader = new CGUIShader("vert.glsl", "frag.glsl");
-  if (!m_shader->CompileAndLink())
-  {
-    delete m_shader;
-    m_shader = nullptr;
-    return false;
-  }
+  std::string fraqShader = kodi::GetAddonPath("resources/shaders/" GL_TYPE_STRING "/frag.glsl");
+  std::string vertShader = kodi::GetAddonPath("resources/shaders/" GL_TYPE_STRING "/vert.glsl");
+  if (!LoadShaderFiles(vertShader, fraqShader) || !CompileAndLink())
+    return -1;
 
   glGenBuffers(1, &m_vertexVBO);
-  glGenBuffers(1, &m_indexVBO);
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
@@ -255,11 +249,6 @@ void CStarField::Destroy(void)
 
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-  glDeleteBuffers(1, &m_indexVBO);
-  m_indexVBO = 0;
-
-  delete(m_shader);
-  m_shader = nullptr;
 
 #else
   SAFE_RELEASE(m_pVBuffer);
@@ -427,39 +416,30 @@ void CStarField::DoDraw(void)
     return;
   }
 #ifndef WIN32
-  if (!m_shader)
-    return;
-
   glClear(GL_COLOR_BUFFER_BIT);
 
   size_t nVSize = m_nDrawnStars * POINTSPERSTAR;
-  GLint posLoc = m_shader->GetPosLoc();
-  GLint colLoc = m_shader->GetColLoc();
 
-  m_shader->PushMatrix();
-  m_shader->Enable();
+  EnableShader();
 
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(ST_CUSTOMVERTEX)*nVSize, m_pVertices, GL_STATIC_DRAW);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  glVertexAttribPointer(m_aPosition, 3, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, x)));
+  glEnableVertexAttribArray(m_aPosition);
 
-  glVertexAttribPointer(posLoc, 3, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, x)));
-  glEnableVertexAttribArray(posLoc);
-
-  glVertexAttribPointer(colLoc, 4, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, color)));
-  glEnableVertexAttribArray(colLoc);
+  glVertexAttribPointer(m_aColor, 4, GL_FLOAT, GL_FALSE, sizeof(ST_CUSTOMVERTEX), BUFFER_OFFSET(offsetof(ST_CUSTOMVERTEX, color)));
+  glEnableVertexAttribArray(m_aColor);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glEnable(GL_BLEND);
   glDrawArrays(GL_LINES, 0, nVSize);
 
-  glDisableVertexAttribArray(posLoc);
-  glDisableVertexAttribArray(colLoc);
+  glDisableVertexAttribArray(m_aPosition);
+  glDisableVertexAttribArray(m_aColor);
 
-  m_shader->Disable();
-  m_shader->PopMatrix();
+  DisableShader();
 
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
@@ -478,3 +458,11 @@ void CStarField::SetPalette(unsigned int nIndex, int iRed, int iGreen, int iBlue
     m_dwPalette[nIndex] = CRGBA(iRed / 255.0f, iGreen / 255.0f, iBlue / 255.0f, 1.0f);
   }
 }
+
+#ifndef WIN32
+void CStarField::OnCompiledAndLinked()
+{
+  m_aPosition = glGetAttribLocation(ProgramHandle(), "a_position");
+  m_aColor = glGetAttribLocation(ProgramHandle(), "a_color");
+}
+#endif // !WIN32

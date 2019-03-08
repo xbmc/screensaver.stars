@@ -4,12 +4,15 @@
 
 #include "types.h"
 #ifndef WIN32
-#include "shaders/GUIShader.h"
+#include <kodi/gui/gl/Shader.h>
 #else
 #include <d3d11.h>
 #endif
 
 class ATTRIBUTE_HIDDEN CStarField
+#ifndef WIN32
+  : public kodi::gui::gl::CShaderProgram
+#endif
 {
 protected:
   struct ST_STAR
@@ -111,9 +114,13 @@ protected:
   ST_CUSTOMVERTEX* m_pVertices = nullptr;
   ST_CUSTOMVERTEX* m_pCurVertice = nullptr;
 #ifndef WIN32
-  CGUIShader* m_shader = nullptr;
-  unsigned int m_vertexVBO;
-  unsigned int m_indexVBO;
+  // override functions for kodi::gui::gl::CShaderProgram
+  void OnCompiledAndLinked() override;
+  bool OnEnabled() override { return true;  }
+  
+  GLuint m_vertexVBO = 0;
+  GLint m_aPosition = -1;
+  GLint m_aColor = -1;
 #else
   ID3D11DeviceContext* m_pContext = nullptr;
   ID3D11Buffer* m_pVBuffer = nullptr;
