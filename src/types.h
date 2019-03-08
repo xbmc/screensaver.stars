@@ -52,7 +52,9 @@ const f32 FLOATEPSILON = 0.00001f;
 
 #define DEGTORAD(d)      ((d)*(PI / 180.0f))
 #define RADTODEG(r)      ((r)*(180.0f / PI))
+#ifndef assert
 #define assert(_x)
+#endif
 
 /***************************** C L A S S E S *******************************/
 
