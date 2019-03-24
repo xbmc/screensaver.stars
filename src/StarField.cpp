@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <algorithm>
+#include <stddef.h>
 
 const int POINTSPERSTAR = 2;
 
