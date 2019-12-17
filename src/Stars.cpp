@@ -48,9 +48,9 @@ class ATTRIBUTE_HIDDEN CScreensaverStars
 public:
   CScreensaverStars();
 
-  virtual bool Start() override;
-  virtual void Stop() override;
-  virtual void Render() override;
+  bool Start() override;
+  void Stop() override;
+  void Render() override;
 
 private:
   ST_SETTINGS m_Settings;
