@@ -1,6 +1,6 @@
 # screensaver.stars addon for Kodi
 
-This is a [Kodi](http://kodi.tv) screensaver addon.
+This is a [Kodi](https://kodi.tv) screensaver addon.
 
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2+-blue.svg)](LICENSE.md)
 [![Build Status](https://travis-ci.org/xbmc/screensaver.stars.svg?branch=Leia)](https://travis-ci.org/xbmc/screensaver.stars/branches)
@@ -10,7 +10,7 @@ This is a [Kodi](http://kodi.tv) screensaver addon.
 ## Build instructions
 
 When building the addon you have to use the correct branch depending on which version of Kodi you're building against. 
-For example, if you're building the `master` branch of Kodi you should checkout the `master` branch of this repository. 
+If you want to build the addon to be compatible with the latest kodi `master` commit, you need to checkout the branch with the current kodi codename.
 Also make sure you follow this README from the branch in question.
 
 ### Linux
