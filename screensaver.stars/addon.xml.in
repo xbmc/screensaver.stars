@@ -12,7 +12,7 @@
     <summary>Stars screensaver</summary>
     <description>A screensaver that lets you fly through the stars.</description>
     <platform>@PLATFORM@</platform>
-    <license>GPL-2.0</license>
+    <license>GPL-2.0-or-later</license>
     <source>https://github.com/xbmc/visualization.stars</source>
     <assets>
       <icon>resources/icon.png</icon>
