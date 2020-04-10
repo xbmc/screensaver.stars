@@ -2,6 +2,7 @@
 
 This is a [Kodi](http://kodi.tv) screensaver addon.
 
+[![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2+-blue.svg)](LICENSE.md)
 [![Build Status](https://travis-ci.org/xbmc/screensaver.stars.svg?branch=Leia)](https://travis-ci.org/xbmc/screensaver.stars/branches)
 [![Build Status](https://dev.azure.com/teamkodi/binary-addons/_apis/build/status/xbmc.screensaver.stars?branchName=Leia)](https://dev.azure.com/teamkodi/binary-addons/_build/latest?definitionId=49&branchName=Leia)
 <!--- [![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.stars?svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-stars) -->
