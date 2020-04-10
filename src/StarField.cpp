@@ -1,5 +1,14 @@
-// based on "stars5" from hugo elias (http://freespace.virgin.net/hugo.elias)
-//------------------------------------------------------------------------------
+/*
+ *  Copyright (C) 2004-2020 Team Kodi (https://kodi.tv)
+ *  Copyright (C) 2004 Chris Barnett (Forza)
+ *
+ *  SPDX-License-Identifier: GPL-2.0-or-later
+ *  See LICENSE.md for more information.
+ */
+
+/*
+ *  based on "stars5" from hugo elias (http://freespace.virgin.net/hugo.elias)
+ */
 
 #include "StarField.h"
 
