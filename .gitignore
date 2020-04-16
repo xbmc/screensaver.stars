@@ -35,27 +35,16 @@ obj-x86_64-linux-gnu/
 # clion
 .idea/
 
-*.o
-*.a
-*.P
-*.lo
-*.la
-*.pvr
-*.zip
-*.patch
-*.orig
-*.diff
+# to prevent add after a "git format-patch VALUE" and "git add ." call
+/*.patch
 
-*.idb
-*.tlog
-*.lastbuildstate
+# Visual Studio Code
+.vscode
 
-# Windows specific generated files
-*.exp
-*.lib
-*.pdb
-*.ilk
-*.suo
-*.sdf
-*.opensdf
-*.vcxproj.user
+# to prevent add if project code opened by Visual Studio over CMake file
+.vs/
+
+# General MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
