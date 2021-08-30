@@ -19,8 +19,10 @@
       <screenshot>resources/screenshot-02.png</screenshot>
       <screenshot>resources/screenshot-03.png</screenshot>
     </assets>
+    <summary lang="da_DK">Stjerne-pauseskærm</summary>
     <summary lang="de_DE">Stars Bildschirmschoner</summary>
     <summary lang="en_GB">Stars screensaver</summary>
+    <description lang="da_DK">En pauseskærm, der lader dig flyve gennem stjernerne.</description>
     <description lang="de_DE">Ein Bildschirmschoner, mit dem Sie durch die Sterne fliegen können.</description>
     <description lang="en_GB">A screensaver that lets you fly through the stars.</description>
   </extension>
