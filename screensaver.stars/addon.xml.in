@@ -22,8 +22,10 @@
     <summary lang="da_DK">Stjerne-pauseskærm</summary>
     <summary lang="de_DE">Stars Bildschirmschoner</summary>
     <summary lang="en_GB">Stars screensaver</summary>
+    <summary lang="ko_KR">별 화면 보호기</summary>
     <description lang="da_DK">En pauseskærm, der lader dig flyve gennem stjernerne.</description>
     <description lang="de_DE">Ein Bildschirmschoner, mit dem Sie durch die Sterne fliegen können.</description>
     <description lang="en_GB">A screensaver that lets you fly through the stars.</description>
+    <description lang="ko_KR">별 사이로 날아가는 화면 보호기.</description>
   </extension>
 </addon>
