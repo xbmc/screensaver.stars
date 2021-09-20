@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2004-2020 Team Kodi (https://kodi.tv)
+ *  Copyright (C) 2004-2021 Team Kodi (https://kodi.tv)
  *  Copyright (C) 2004 Chris Barnett (Forza)
  *
  *  SPDX-License-Identifier: GPL-2.0-or-later
