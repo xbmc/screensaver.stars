@@ -30,7 +30,7 @@ struct ST_SETTINGS
   float fExpanse;
 };
 
-class ATTRIBUTE_HIDDEN CScreensaverStars
+class ATTR_DLL_LOCAL CScreensaverStars
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 {
@@ -49,12 +49,12 @@ private:
 CScreensaverStars::CScreensaverStars()
   : m_pStarField(nullptr)
 {
-  m_Settings.iNumStars = kodi::GetSettingInt("numstars");
-  m_Settings.fGamma = kodi::GetSettingFloat("gamma");
-  m_Settings.fBrightness = kodi::GetSettingFloat("brightness");
-  m_Settings.fSpeed = kodi::GetSettingFloat("speed");
-  m_Settings.fZoom = kodi::GetSettingFloat("zoom");
-  m_Settings.fExpanse = kodi::GetSettingFloat("expanse");
+  m_Settings.iNumStars = kodi::addon::GetSettingInt("numstars");
+  m_Settings.fGamma = kodi::addon::GetSettingFloat("gamma");
+  m_Settings.fBrightness = kodi::addon::GetSettingFloat("brightness");
+  m_Settings.fSpeed = kodi::addon::GetSettingFloat("speed");
+  m_Settings.fZoom = kodi::addon::GetSettingFloat("zoom");
+  m_Settings.fExpanse = kodi::addon::GetSettingFloat("expanse");
 }
 
 bool CScreensaverStars::Start()

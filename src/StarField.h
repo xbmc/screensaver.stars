@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <kodi/AddonBase.h> // ATTRIBUTE_HIDDEN
+#include <kodi/AddonBase.h> // ATTR_DLL_LOCAL
 
 #include "types.h"
 #ifndef WIN32
@@ -17,7 +17,7 @@
 #include <d3d11.h>
 #endif
 
-class ATTRIBUTE_HIDDEN CStarField
+class ATTR_DLL_LOCAL CStarField
 #ifndef WIN32
   : public kodi::gui::gl::CShaderProgram
 #endif
