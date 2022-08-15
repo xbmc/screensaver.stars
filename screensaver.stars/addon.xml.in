@@ -22,11 +22,13 @@
     <summary lang="da_DK">Stjerne-pauseskærm</summary>
     <summary lang="de_DE">Stars Bildschirmschoner</summary>
     <summary lang="en_GB">Stars screensaver</summary>
+    <summary lang="fi_FI">Tähdet-näytönsäästäjä</summary>
     <summary lang="ko_KR">별 화면 보호기</summary>
     <summary lang="zh_CN">星空屏幕保护程序</summary>
     <description lang="da_DK">En pauseskærm, der lader dig flyve gennem stjernerne.</description>
     <description lang="de_DE">Ein Bildschirmschoner, mit dem Sie durch die Sterne fliegen können.</description>
     <description lang="en_GB">A screensaver that lets you fly through the stars.</description>
+    <description lang="fi_FI">Näytönsäästäjä, joka lennättää sinua tähtien keskellä.</description>
     <description lang="ko_KR">별 사이로 날아가는 화면 보호기.</description>
     <description lang="zh_CN">让你在星空中飞翔的屏幕保护程序。</description>
   </extension>
