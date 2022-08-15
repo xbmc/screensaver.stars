@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: KODI Addons\n"
 "Report-Msgid-Bugs-To: translations@kodi.tv\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2022-08-04 05:14+0000\n"
+"PO-Revision-Date: 2022-08-15 05:14+0000\n"
 "Last-Translator: Oskari Lavinto <olavinto@protonmail.com>\n"
 "Language-Team: Finnish <https://kodi.weblate.cloud/projects/kodi-add-ons-look-and-feel/screensaver-stars/fi_fi/>\n"
 "Language: fi_fi\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 msgctxt "Addon Summary"
 msgid "Stars screensaver"
-msgstr ""
+msgstr "Tähdet-näytönsäästäjä"
 
 msgctxt "Addon Description"
 msgid "A screensaver that lets you fly through the stars."
-msgstr ""
+msgstr "Näytönsäästäjä, joka lennättää sinua tähtien keskellä."
 
 # [Consistency] Make terms, settings names, brands and other minutiae, consistent throughout file.
 # [Capitalization] Avoid capitalizing every second word. See http://grammarist.com/capitalization/
@@ -35,11 +35,11 @@ msgstr ""
 # Following strings used for addon settings dialog
 msgctxt "#30000"
 msgid "Number of stars"
-msgstr ""
+msgstr "Tähtien määrä"
 
 msgctxt "#30001"
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 msgctxt "#30002"
 msgid "Brightness"
@@ -51,8 +51,8 @@ msgstr "Nopeus"
 
 msgctxt "#30004"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoomaus"
 
 msgctxt "#30005"
 msgid "Expanse"
-msgstr ""
+msgstr "Laajennus"
