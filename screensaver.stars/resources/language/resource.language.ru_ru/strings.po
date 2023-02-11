@@ -5,24 +5,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KODI Addons\n"
-"Report-Msgid-Bugs-To: https://github.com/xbmc/screensaver.stars/issues/\n"
+"Report-Msgid-Bugs-To: translations@kodi.tv\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-09-13 09:14+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"Language-Team: Russian <https://kodi.weblate.cloud/projects/kodi-add-ons-look-and-feel/screensaver-stars/ru_ru/>\n"
 "Language: ru_ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.14\n"
 
 msgctxt "Addon Summary"
 msgid "Stars screensaver"
-msgstr ""
+msgstr "Звёздный хранитель экрана"
 
 msgctxt "Addon Description"
 msgid "A screensaver that lets you fly through the stars."
-msgstr ""
+msgstr "Экранная заставка, что отправит вас в полёт среди звёзд."
 
 # [Consistency] Make terms, settings names, brands and other minutiae, consistent throughout file.
 # [Capitalization] Avoid capitalizing every second word. See http://grammarist.com/capitalization/
@@ -34,24 +35,24 @@ msgstr ""
 # Following strings used for addon settings dialog
 msgctxt "#30000"
 msgid "Number of stars"
-msgstr ""
+msgstr "Число звёзд"
 
 msgctxt "#30001"
 msgid "Gamma"
-msgstr ""
+msgstr "Гамма"
 
 msgctxt "#30002"
 msgid "Brightness"
-msgstr ""
+msgstr "Яркость"
 
 msgctxt "#30003"
 msgid "Speed"
-msgstr ""
+msgstr "Скорость"
 
 msgctxt "#30004"
 msgid "Zoom"
-msgstr ""
+msgstr "Масштаб"
 
 msgctxt "#30005"
 msgid "Expanse"
-msgstr ""
+msgstr "Распространение"
