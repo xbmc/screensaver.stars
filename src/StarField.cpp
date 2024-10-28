@@ -452,6 +452,12 @@ void CStarField::DoDraw(void)
   DisableShader();
 
 #else
+  ID3D11RenderTargetView* renderTargetView;
+  m_pContext->OMGetRenderTargets(1, &renderTargetView, nullptr);
+  float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+  m_pContext->ClearRenderTargetView(renderTargetView, clearColor);
+  SAFE_RELEASE(renderTargetView);
+
   m_pContext->Unmap(m_pVBuffer, 0);
   m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
   UINT strides = sizeof(ST_CUSTOMVERTEX), offsets = 0;
