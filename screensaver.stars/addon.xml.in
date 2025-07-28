@@ -30,6 +30,7 @@
     <summary lang="it_IT">Salvaschermo stelle</summary>
     <summary lang="ko_KR">별 화면 보호기</summary>
     <summary lang="ru_RU">Звёздный хранитель экрана</summary>
+    <summary lang="sv_SE">Stjärnor skärmsläckare</summary>
     <summary lang="zh_CN">星空屏幕保护程序</summary>
     <description lang="af_ZA">&apos;n Skermskut wat jou toelaat om deur die sterre te vlieg.</description>
     <description lang="da_DK">En pauseskærm, der lader dig flyve gennem stjernerne.</description>
@@ -42,6 +43,7 @@
     <description lang="it_IT">Un salvaschermo che ti permette di volare tra le stelle.</description>
     <description lang="ko_KR">별 사이로 날아가는 화면 보호기.</description>
     <description lang="ru_RU">Экранная заставка, что отправит вас в полёт среди звёзд.</description>
+    <description lang="sv_SE">En skärmsläckare som låter dig flyga genom stjärnorna.</description>
     <description lang="zh_CN">让你在星空中飞翔的屏幕保护程序。</description>
   </extension>
 </addon>
