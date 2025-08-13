@@ -104,7 +104,7 @@ protected:
   ST_SCREEN m_Screen;
   ST_FIELD m_Field;
   ST_ROTATION m_Cam;
-  ST_STAR* m_pStars = nullptr;
+  std::vector<ST_STAR> m_pStars;
   unsigned int m_nStarCnt;
   unsigned int m_nDrawnStars;
 

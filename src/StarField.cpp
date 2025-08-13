@@ -173,17 +173,7 @@ int CStarField::Create(int iWidth, int iHeight)
   m_Field.fMaxZ   = 640.f;
   m_Field.fLength = m_Field.fMaxZ - m_Field.fMinZ;
 
-  if (m_pStars)
-  {
-    delete[] m_pStars;
-  }
-
-  m_pStars = new ST_STAR[m_nStarCnt];
-
-  if (m_pStars == nullptr)
-  {
-    return -1;
-  }
+  m_pStars.resize(m_nStarCnt);
 
   unsigned int n;
 
@@ -201,10 +191,10 @@ int CStarField::Create(int iWidth, int iHeight)
     m_fBrightTable[n] = (float)(br * 255);
   }
 
-  for (n = 0; n < m_nStarCnt; n++)
+  for (auto& star : m_pStars)
   {
-    ResetStar(&m_pStars[n]);
-    m_pStars[n].z = RangeRand(m_Field.fMinZ, m_Field.fLength);
+    ResetStar(&star);
+    star.z = RangeRand(m_Field.fMinZ, m_Field.fLength);
   }
 
   for (n = 1; n < 256; n++)
@@ -249,9 +239,6 @@ char CStarField::GammaCorrect(unsigned char c, float g)
 
 void CStarField::Destroy(void)
 {
-  delete[] m_pStars;
-  m_pStars = nullptr;
-
   m_pCurVertice = nullptr;
 #ifndef WIN32
   delete[] m_pVertices;
@@ -268,11 +255,6 @@ void CStarField::Destroy(void)
 
 int CStarField::RenderFrame(void)
 {
-  if (m_pStars == nullptr)
-  {
-    return -1;
-  }
-
   m_Screen.fZoom = (float)m_Screen.iMidX * m_fZoom;
   m_fVelocity += (m_fMaxVelocity - m_fVelocity) * .01f;
 
