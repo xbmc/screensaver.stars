@@ -125,7 +125,8 @@ protected:
   // override functions for kodi::gui::gl::CShaderProgram
   void OnCompiledAndLinked() override;
   bool OnEnabled() override { return true;  }
-  
+
+  GLuint m_vao = 0;
   GLuint m_vertexVBO = 0;
   GLint m_aPosition = -1;
   GLint m_aColor = -1;

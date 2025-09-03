@@ -223,6 +223,8 @@ int CStarField::Create(int iWidth, int iHeight)
   if (!LoadShaderFiles(vertShader, fraqShader) || !CompileAndLink())
     return -1;
 
+  glGenVertexArrays(1, &m_vao);
+
   glGenBuffers(1, &m_vertexVBO);
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -246,6 +248,8 @@ void CStarField::Destroy(void)
 
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
+
+  glDeleteVertexArrays(1, &m_vao);
 
 #else
   SAFE_RELEASE(m_pVBuffer);
@@ -412,6 +416,8 @@ void CStarField::DoDraw(void)
 
   size_t nVSize = m_nDrawnStars * POINTSPERSTAR;
 
+  glBindVertexArray(m_vao);
+
   EnableShader();
 
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
@@ -432,6 +438,8 @@ void CStarField::DoDraw(void)
   glDisableVertexAttribArray(m_aColor);
 
   DisableShader();
+
+  glBindVertexArray(0);
 
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
